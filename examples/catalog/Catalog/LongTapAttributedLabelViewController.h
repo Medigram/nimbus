@@ -14,8 +14,9 @@
 // limitations under the License.
 //
 
-#import "NimbusLauncher.h"
+#import <UIKit/UIKit.h>
 
 // All docs are in the .m.
-@interface RestoringLauncherViewController : NILauncherViewController
+@interface LongTapAttributedLabelViewController : UIViewController
+
 @end

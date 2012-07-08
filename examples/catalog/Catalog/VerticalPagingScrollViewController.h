@@ -1,4 +1,5 @@
 //
+// Copyright 2012 Manu Cornet
 // Copyright 2011-2012 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,10 +13,9 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-//
 
-#import "NimbusLauncher.h"
+#import <UIKit/UIKit.h>
 
 // All docs are in the .m.
-@interface RestoringLauncherViewController : NILauncherViewController
+@interface VerticalPagingScrollViewController : UIViewController
 @end

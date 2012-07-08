@@ -1,5 +1,6 @@
 //
-// Copyright 2011 Jeff Verkoeyen
+// Copyright 2011-2012 Jeff Verkoeyen
+// Copyright 2012 Manu Cornet (vertical layouts)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +30,12 @@ extern const NSInteger NIPagingScrollViewUnknownNumberOfPages;
  *
  * Value: 10
  */
-extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
+extern const CGFloat NIPagingScrollViewDefaultPageMargin;
+
+typedef enum {
+  NIPagingScrollViewHorizontal = 0,
+  NIPagingScrollViewVertical,
+} NIPagingScrollViewType;
 
 @protocol NIPagingScrollViewDataSource;
 @protocol NIPagingScrollViewDelegate;
@@ -51,7 +57,7 @@ extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
   NIViewRecycler* _viewRecycler;
 
   // Configurable Properties
-  CGFloat _pageHorizontalMargin;
+  CGFloat _pageMargin;
 
   // State Information
   NSInteger _firstVisiblePageIndexBeforeRotation;
@@ -85,7 +91,8 @@ extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
 
 #pragma mark Configuring Presentation
 
-@property (nonatomic, readwrite, assign) CGFloat pageHorizontalMargin;
+@property (nonatomic, readwrite, assign) CGFloat pageMargin;
+@property (nonatomic, readwrite, assign) NIPagingScrollViewType type; // Default: NIPagingScrollViewHorizontal
 
 #pragma mark Changing the Visible Page
 
@@ -159,9 +166,20 @@ extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
  *
  * The space between each page will be 2x this value.
  *
- * By default this is NIPagingScrollViewDefaultPageHorizontalMargin.
+ * By default this is NIPagingScrollViewDefaultPageMargin.
  *
- *      @fn NIPagingScrollView::pageHorizontalMargin
+ *      @fn NIPagingScrollView::pageMargin
+ */
+
+/**
+ * The type of paging scroll view to display.
+ *
+ * This property allows you to configure whether you want a horizontal or vertical paging scroll
+ * view. You should set this property before you present the scroll view and not modify it after.
+ *
+ * By default this is NIPagingScrollViewHorizontal.
+ *
+ *      @fn NIPagingScrollView::type
  */
 
 

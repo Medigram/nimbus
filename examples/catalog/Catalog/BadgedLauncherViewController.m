@@ -14,22 +14,27 @@
 // limitations under the License.
 //
 
-#import "ModelLauncherViewController.h"
+#import "BadgedLauncherViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
+#import "BadgedLauncherButtonView.h"
 
 //
 // What's going on in this file:
 //
-// This controller shows how to use NILauncherViewModel to store the launcher object information.
-// This model object greatly simplifies your interactions with the launcher view data source
-// compared to the BasicIntantiation launcher example.
+// This controller shows the use of two separate Nimbus features: [launcher] and [badge]. We've
+// created a subclass of NILauncherViewObject and NILauncherButtonView called
+// BadgedLauncherViewObject and BadgedLauncherButtonView, respectively. You can find these classes
+// in BadgedLauncherButtonView.h/m. These subclasses allow us to provide a badge number for the
+// launcher button and then display this badge in the launcher button's top right corner.
 //
-// This example shows how to create a model that lasts the lifetime of this controller and never
-// changes. In the Modifying example you will learn how to modify the model by adding more pages to
-// it.
+// A badged launcher button is not part of Nimbus itself because it depends on two independent
+// Nimbus features. This sort of composite functionality generally does not get added directly to
+// Nimbus.
 //
 // You will find the following Nimbus features used:
+//
+// [badge]
+// NIBadgeView
 //
 // [launcher]
 // NILauncherViewController
@@ -44,17 +49,17 @@
 // UIKit.framework
 //
 
-@interface ModelLauncherViewController () <NILauncherViewModelDelegate>
+@interface BadgedLauncherViewController () <NILauncherViewModelDelegate>
 @property (nonatomic, readwrite, retain) NILauncherViewModel* model;
 @end
 
-@implementation ModelLauncherViewController
+@implementation BadgedLauncherViewController
 
 @synthesize model = _model;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-    self.title = @"Model";
+    self.title = @"Badges";
 
     // Load the Nimbus app icon.
     NSString* imagePath = NIPathForBundleResource(nil, @"Icon.png");
@@ -64,32 +69,25 @@
       [[Nimbus imageMemoryCache] storeObject:image withName:imagePath];
     }
 
-    // We populate the launcher model with an array of arrays of NILauncherViewObject objects.
-    // Each sub array is a single page of the launcher view. The default NILauncherViewObject object
-    // allows you to provide a title and image.
+    // We can provide different launcher objects in the model to show different types of launcher
+    // buttons. In this example we'll mix the default NILauncherViewObject with
+    // BadgedLauncherViewObject, which displays a launcher button with a badge number.
     NSArray* contents =
     [NSArray arrayWithObjects:
      [NSArray arrayWithObjects:
-      [NILauncherViewObject objectWithTitle:@"Nimbus" image:image],
+      // Shows a button with a badge showing the number 12.
+      [BadgedLauncherViewObject objectWithTitle:@"Nimbus" image:image badgeNumber:12],
       [NILauncherViewObject objectWithTitle:@"Nimbus 2" image:image],
       [NILauncherViewObject objectWithTitle:@"Nimbus 3" image:image],
-      [NILauncherViewObject objectWithTitle:@"Nimbus 5" image:image],
-      [NILauncherViewObject objectWithTitle:@"Nimbus 6" image:image],
-      nil],
 
-     // A new page.
-     [NSArray arrayWithObjects:
-      [NILauncherViewObject objectWithTitle:@"Page 2" image:image],
-      nil],
+      // Will not display a badge because the number is 0.
+      [BadgedLauncherViewObject objectWithTitle:@"Nimbus 4" image:image badgeNumber:0],
 
-     // A third page.
-     [NSArray arrayWithObjects:
-      [NILauncherViewObject objectWithTitle:@"Page 3" image:image],
+      // The badge number will become @"99+".
+      [BadgedLauncherViewObject objectWithTitle:@"Nimbus 6" image:image badgeNumber:103],
       nil],
      nil];
 
-    // Create the model object with the contents array. We provide self as the delegate so that
-    // we can customize what the buttons look like.
     _model = [[NILauncherViewModel alloc] initWithArrayOfPages:contents delegate:self];
   }
   return self;
@@ -100,8 +98,6 @@
   
   self.view.backgroundColor = [UIColor underPageBackgroundColor];
 
-  // Because the model implements the NILauncherViewDataSource protocol we can simply assign the
-  // model to the dataSource property and everything will magically work. Wicked!
   self.launcherView.dataSource = self.model;
 }
 
@@ -117,10 +113,8 @@
                 pageIndex:(NSInteger)pageIndex
               buttonIndex:(NSInteger)buttonIndex
                    object:(id<NILauncherViewObject>)object {
-
-  // The NILauncherViewObject object always creates a NILauncherButtonView so we can safely cast
-  // here and update the label's style to add the nice blurred shadow we saw in the
-  // BasicInstantiation example.
+  // BadgedLauncherViewObject is a subclass of NILauncherButtonView so we can still safely cast
+  // without worrying about crashes.
   NILauncherButtonView* launcherButtonView = (NILauncherButtonView *)buttonView;
 
   launcherButtonView.label.layer.shadowColor = [UIColor blackColor].CGColor;
@@ -132,8 +126,6 @@
 #pragma mark - NILauncherDelegate
 
 - (void)launcherView:(NILauncherView *)launcher didSelectItemOnPage:(NSInteger)page atIndex:(NSInteger)index {
-  // Now that we're using a model we can easily refer back to which object was selected when we
-  // receive a selection notification.
   id<NILauncherViewObject> object = [self.model objectAtIndex:index pageIndex:page];
 
   UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Notice"

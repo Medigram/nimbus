@@ -16,10 +16,16 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
+#import "NimbusCore.h"
 
-// In standard UI text alignment we do not have justify, however we can justify in CoreText
+// In UITextAlignment prior to iOS 6.0 we do not have justify, so we add support for it when
+// building for pre-iOS 6.0.
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < NIIOS_6_0
 #ifndef UITextAlignmentJustify
 #define UITextAlignmentJustify ((UITextAlignment)kCTJustifiedTextAlignment)
+#endif
+#else
+// UITextAlignmentJustify is deprecated in iOS 6.0. Please use NSTextAlignmentJustified instead.
 #endif
 
 // Vertical alignments for NIAttributedLabel.
@@ -49,7 +55,8 @@ typedef enum {
  */
 @interface NIAttributedLabel : UILabel
 
-@property (nonatomic, copy) NSAttributedString* attributedString;
+// When building for iOS 6.0 and higher use attributedText.
+@property (nonatomic, copy) NSAttributedString* attributedString NS_DEPRECATED_IOS(2_0, 6_0);
 
 @property (nonatomic, assign) BOOL autoDetectLinks; // Default: NO
 @property (nonatomic, assign) NSTextCheckingType dataDetectorTypes; // Default: NSTextCheckingTypeLink
@@ -99,7 +106,26 @@ typedef enum {
  *      @param result The data detector result that was selected.
  *      @param point The point within @c attributedLabel where the result was tapped.
  */
-- (void)attributedLabel:(NIAttributedLabel*)attributedLabel didSelectTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point;
+- (void)attributedLabel:(NIAttributedLabel *)attributedLabel didSelectTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point;
+
+/**
+ * Asks the delegate whether an action sheet should be displayed at the given point.
+ *
+ * If this method is not implemented by the delegate then @c actionSheet will always be displayed.
+ *
+ * @c actionSheet will be populated with actions that match the data type that was selected. For
+ * example, a link will have the actions "Open in Safari" and "Copy URL". A phone number will have
+ * @"Call" and "Copy Phone Number".
+ *
+ *      @param attributedLabel An attributed label asking the delegate whether to display the action
+ *                             sheet.
+ *      @param actionSheet The action sheet that will be displayed if YES is returned.
+ *      @param result The data detector result that was selected.
+ *      @param point The point within @c attributedLabel where the result was tapped.
+ *      @returns YES if @c actionSheet should be displayed. NO if @c actionSheet should not be
+ *               displayed.
+ */
+- (BOOL)attributedLabel:(NIAttributedLabel *)attributedLabel shouldPresentActionSheet:(UIActionSheet *)actionSheet withTextCheckingResult:(NSTextCheckingResult *)result atPoint:(CGPoint)point;
 
 @end
 
@@ -107,6 +133,10 @@ typedef enum {
 
 /**
  * The attributed string that will be displayed.
+ *
+ * @attention
+ *      When building for iOS 6.0 and higher this property will not exist. Use attributedText
+ *      instead.
  *
  * Setting this property explicitly will ignore the UILabel's existing style.
  *
