@@ -16,8 +16,6 @@
 
 #import "ModelLauncherViewController.h"
 
-#import <QuartzCore/QuartzCore.h>
-
 //
 // What's going on in this file:
 //

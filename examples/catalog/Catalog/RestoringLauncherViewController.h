@@ -18,4 +18,5 @@
 
 // All docs are in the .m.
 @interface RestoringLauncherViewController : NILauncherViewController
+
 @end

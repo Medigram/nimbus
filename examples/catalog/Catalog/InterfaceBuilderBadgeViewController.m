@@ -24,7 +24,9 @@
 // Interface Builder (IB).
 //
 // To add a NIBadgeView to IB you will need to add a UIView object and specify NIBadgeView as the
-// subclass.
+// subclass. You can then modify specific properties from IB by setting them in the "User defined
+// runtime attributes" section. You will see examples of setting the text color and shadow color
+// there.
 //
 // You will find the following Nimbus features used:
 //
@@ -54,8 +56,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  self.badgeView.text = @"2";
-  self.badgeView2.text = @"4";
   [self.badgeView sizeToFit];
   [self.badgeView2 sizeToFit];
 }

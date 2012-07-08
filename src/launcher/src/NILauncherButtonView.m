@@ -16,7 +16,6 @@
 // limitations under the License.
 //
 
-#import <QuartzCore/QuartzCore.h>
 #import "NILauncherButtonView.h"
 
 #import "NILauncherViewObject.h"
@@ -49,13 +48,8 @@ static const CGFloat kImageBottomMargin = 5;
     _label = [[UILabel alloc] init];
     _label.backgroundColor = [UIColor clearColor];
     _label.numberOfLines = 1;
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < NIIOS_6_0
     _label.textAlignment = UITextAlignmentCenter;
     _label.lineBreakMode = UILineBreakModeTailTruncation;
-#else
-    _label.textAlignment = NSTextAlignmentCenter;
-    _label.lineBreakMode = NSLineBreakByTruncatingTail;
-#endif
     _label.font = [UIFont boldSystemFontOfSize:12];
     _label.textColor = [UIColor whiteColor];
 

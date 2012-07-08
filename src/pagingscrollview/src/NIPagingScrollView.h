@@ -1,6 +1,5 @@
 //
-// Copyright 2011-2012 Jeff Verkoeyen
-// Copyright 2012 Manu Cornet (vertical layouts)
+// Copyright 2011 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,12 +29,7 @@ extern const NSInteger NIPagingScrollViewUnknownNumberOfPages;
  *
  * Value: 10
  */
-extern const CGFloat NIPagingScrollViewDefaultPageMargin;
-
-typedef enum {
-  NIPagingScrollViewHorizontal = 0,
-  NIPagingScrollViewVertical,
-} NIPagingScrollViewType;
+extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
 
 @protocol NIPagingScrollViewDataSource;
 @protocol NIPagingScrollViewDelegate;
@@ -57,7 +51,7 @@ typedef enum {
   NIViewRecycler* _viewRecycler;
 
   // Configurable Properties
-  CGFloat _pageMargin;
+  CGFloat _pageHorizontalMargin;
 
   // State Information
   NSInteger _firstVisiblePageIndexBeforeRotation;
@@ -91,8 +85,7 @@ typedef enum {
 
 #pragma mark Configuring Presentation
 
-@property (nonatomic, readwrite, assign) CGFloat pageMargin;
-@property (nonatomic, readwrite, assign) NIPagingScrollViewType type; // Default: NIPagingScrollViewHorizontal
+@property (nonatomic, readwrite, assign) CGFloat pageHorizontalMargin;
 
 #pragma mark Changing the Visible Page
 
@@ -166,20 +159,9 @@ typedef enum {
  *
  * The space between each page will be 2x this value.
  *
- * By default this is NIPagingScrollViewDefaultPageMargin.
+ * By default this is NIPagingScrollViewDefaultPageHorizontalMargin.
  *
- *      @fn NIPagingScrollView::pageMargin
- */
-
-/**
- * The type of paging scroll view to display.
- *
- * This property allows you to configure whether you want a horizontal or vertical paging scroll
- * view. You should set this property before you present the scroll view and not modify it after.
- *
- * By default this is NIPagingScrollViewHorizontal.
- *
- *      @fn NIPagingScrollView::type
+ *      @fn NIPagingScrollView::pageHorizontalMargin
  */
 
 

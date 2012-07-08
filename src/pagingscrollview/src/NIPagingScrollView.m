@@ -1,6 +1,5 @@
 //
-// Copyright 2011-2012 Jeff Verkoeyen
-// Copyright 2012 Manu Cornet (vertical layouts)
+// Copyright 2011 Jeff Verkoeyen
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +24,7 @@
 #import <objc/runtime.h>
 
 const NSInteger NIPagingScrollViewUnknownNumberOfPages = -1;
-const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
+const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin = 10;
 
 @interface NIPagingScrollView()
 
@@ -41,18 +40,17 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
 
 @synthesize visiblePages = _visiblePages;
 @synthesize pagingScrollView = _pagingScrollView;
-@synthesize pageMargin = _pageMargin;
+@synthesize pageHorizontalMargin = _pageHorizontalMargin;
 @synthesize dataSource = _dataSource;
 @synthesize delegate = _delegate;
 @synthesize centerPageIndex = _centerPageIndex;
 @synthesize numberOfPages = _numberOfPages;
-@synthesize type = _type;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)commonInit {
   // Default state.
-  self.pageMargin = NIPagingScrollViewDefaultPageMargin;
+  self.pageHorizontalMargin = NIPagingScrollViewDefaultPageHorizontalMargin;
 
   _firstVisiblePageIndexBeforeRotation = -1;
   _percentScrolledIntoFirstVisiblePage = -1;
@@ -119,16 +117,10 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
 - (CGRect)frameForPagingScrollView {
   CGRect frame = self.bounds;
 
-  if (NIPagingScrollViewHorizontal == self.type) {
-    // We make the paging scroll view a little bit wider on the side edges so that there
-    // there is space between the pages when flipping through them.
-    frame.origin.x -= self.pageMargin;
-    frame.size.width += (2 * self.pageMargin);
-
-  } else if (NIPagingScrollViewVertical == self.type) {
-    frame.origin.y -= self.pageMargin;
-    frame.size.height += (2 * self.pageMargin);
-  }
+  // We make the paging scroll view a little bit wider on the side edges so that there
+  // there is space between the pages when flipping through them.
+  frame.origin.x -= self.pageHorizontalMargin;
+  frame.size.width += (2 * self.pageHorizontalMargin);
 
   return frame;
 }
@@ -143,17 +135,11 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   // will be in landscape because it has a rotation transform applied.
   CGRect bounds = self.pagingScrollView.bounds;
   CGRect pageFrame = bounds;
-  
-  if (NIPagingScrollViewHorizontal == self.type) {
-    // We need to counter the extra spacing added to the paging scroll view in
-    // frameForPagingScrollView:
-    pageFrame.size.width -= self.pageMargin * 2;
-    pageFrame.origin.x = (bounds.size.width * pageIndex) + self.pageMargin;
 
-  } else if (NIPagingScrollViewVertical == self.type) {
-    pageFrame.size.height -= self.pageMargin * 2;
-    pageFrame.origin.y = (bounds.size.height * pageIndex) + self.pageMargin;
-  }
+  // We need to counter the extra spacing added to the paging scroll view in
+  // frameForPagingScrollView:
+  pageFrame.size.width -= self.pageHorizontalMargin * 2;
+  pageFrame.origin.x = (bounds.size.width * pageIndex) + self.pageHorizontalMargin;
 
   return pageFrame;
 }
@@ -164,61 +150,9 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   // We have to use the paging scroll view's bounds to calculate the contentSize, for the
   // same reason outlined above.
   CGRect bounds = self.pagingScrollView.bounds;
-  if (NIPagingScrollViewHorizontal == self.type) {
-    return CGSizeMake(bounds.size.width * _numberOfPages, bounds.size.height);
-
-  } else if (NIPagingScrollViewVertical == self.type) {
-    return CGSizeMake(bounds.size.width, bounds.size.height * self.numberOfPages);
-  }
-  return CGSizeZero;
+  return CGSizeMake(bounds.size.width * _numberOfPages, bounds.size.height);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGPoint)adjustOffsetWithMargin:(CGPoint)offset {
-  if (NIPagingScrollViewHorizontal == self.type) {
-    offset.x -= self.pageMargin;
-
-  } else if (NIPagingScrollViewVertical == self.type) {
-    offset.y -= self.pageMargin;
-  }
-  return offset;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)pageScrollableDimension {
-  if (NIPagingScrollViewHorizontal == self.type) {
-    return self.pagingScrollView.bounds.size.width;
-    
-  } else if (NIPagingScrollViewVertical == self.type) {
-    return self.pagingScrollView.bounds.size.height;
-  }
-  
-  return 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGPoint)contentOffsetFromOffset:(CGFloat)offset {
-  if (NIPagingScrollViewHorizontal == self.type) {
-    return CGPointMake(offset, 0);
-
-  } else if (NIPagingScrollViewVertical == self.type) {
-    return CGPointMake(0, offset);
-  }
-  
-  return CGPointMake(0, 0);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (CGFloat)scrolledPageOffset {
-  if (NIPagingScrollViewHorizontal == self.type) {
-    return self.pagingScrollView.contentOffset.x;
-
-  } else if (NIPagingScrollViewVertical == self.type) {
-    return self.pagingScrollView.contentOffset.y;
-  }
-  
-  return 0;
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -247,21 +181,12 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
 - (NSInteger)currentVisiblePageIndex {
   CGPoint contentOffset = self.pagingScrollView.contentOffset;
   CGSize boundsSize = self.pagingScrollView.bounds.size;
-  
-  if (NIPagingScrollViewHorizontal == self.type) {
-    // Whatever image is currently displayed in the center of the screen is the currently
-    // visible image.
-    return boundi((NSInteger)(floorf((contentOffset.x + boundsSize.width / 2) / boundsSize.width)
-                              + 0.5f),
-                  0, self.numberOfPages - 1);
-    
-  } else if (NIPagingScrollViewVertical == self.type) {
-    return boundi((NSInteger)(floorf((contentOffset.y + boundsSize.height / 2) / boundsSize.height)
-                              + 0.5f),
-                  0, self.numberOfPages - 1);
-  }
-  
-  return 0;
+
+  // Whatever image is currently displayed in the center of the screen is the currently
+  // visible image.
+  return boundi((NSInteger)(floorf((contentOffset.x + boundsSize.width / 2) / boundsSize.width)
+                            + 0.5f),
+                0, self.numberOfPages - 1);
 }
 
 
@@ -573,7 +498,7 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
     // The content size is calculated based on the number of pages and the scroll view frame.
     _isModifyingContentOffset = YES;
     CGPoint offset = [self frameForPageAtIndex:_centerPageIndex].origin;
-    offset = [self adjustOffsetWithMargin:offset];
+    offset.x -= self.pageHorizontalMargin;
     self.pagingScrollView.contentOffset = offset;
     _isModifyingContentOffset = NO;
   }
@@ -589,18 +514,18 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   // Here, our pagingScrollView bounds have not yet been updated for the new interface
   // orientation. This is a good place to calculate the content offset that we will
   // need in the new orientation.
-  CGFloat offset = [self scrolledPageOffset];
-  CGFloat pageScrollableDimension = [self pageScrollableDimension];
+  CGFloat offset = self.pagingScrollView.contentOffset.x;
+  CGFloat pageWidth = self.pagingScrollView.bounds.size.width;
 
   if (offset >= 0) {
-    _firstVisiblePageIndexBeforeRotation = floorf(offset / pageScrollableDimension);
+    _firstVisiblePageIndexBeforeRotation = floorf(offset / pageWidth);
     _percentScrolledIntoFirstVisiblePage = ((offset
-        - (_firstVisiblePageIndexBeforeRotation * pageScrollableDimension))
-        / pageScrollableDimension);
+                                            - (_firstVisiblePageIndexBeforeRotation * pageWidth))
+                                           / pageWidth);
 
   } else {
     _firstVisiblePageIndexBeforeRotation = 0;
-    _percentScrolledIntoFirstVisiblePage = offset / pageScrollableDimension;
+    _percentScrolledIntoFirstVisiblePage = offset / pageWidth;
   }
 }
 
@@ -618,11 +543,11 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   [self layoutVisiblePages];
 
   // Adjust contentOffset to preserve page location based on values collected prior to location.
-  CGFloat pageScrollableDimension = [self pageScrollableDimension];
-  CGFloat newOffset = ((_firstVisiblePageIndexBeforeRotation * pageScrollableDimension)
-                       + (_percentScrolledIntoFirstVisiblePage * pageScrollableDimension));
+  CGFloat pageWidth = self.pagingScrollView.bounds.size.width;
+  CGFloat newOffset = ((_firstVisiblePageIndexBeforeRotation * pageWidth)
+                       + (_percentScrolledIntoFirstVisiblePage * pageWidth));
   _isModifyingContentOffset = YES;
-  self.pagingScrollView.contentOffset = [self contentOffsetFromOffset:newOffset];
+  self.pagingScrollView.contentOffset = CGPointMake(newOffset, 0);
   _isModifyingContentOffset = wasModifyingContentOffset;
 }
 
@@ -646,7 +571,7 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   // Reset the content offset once the animation completes, just to be sure that the
   // viewer sits on a page bounds even if we rotate the device while animating.
   CGPoint offset = [self frameForPageAtIndex:[pageIndex intValue]].origin;
-  offset = [self adjustOffsetWithMargin:offset];
+  offset.x -= self.pageHorizontalMargin;
 
   _isModifyingContentOffset = YES;
   self.pagingScrollView.contentOffset = offset;
@@ -664,7 +589,7 @@ const CGFloat NIPagingScrollViewDefaultPageMargin = 10;
   }
 
   CGPoint offset = [self frameForPageAtIndex:pageIndex].origin;
-  offset = [self adjustOffsetWithMargin:offset];
+  offset.x -= self.pageHorizontalMargin;
 
   _isModifyingContentOffset = YES;
   [self.pagingScrollView setContentOffset:offset animated:animated];

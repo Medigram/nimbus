@@ -28,7 +28,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation NILauncherViewController
 
-@synthesize shouldReloadData = _shouldReloadData;
 @synthesize launcherView = _launcherView;
 
 

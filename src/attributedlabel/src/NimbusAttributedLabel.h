@@ -44,20 +44,14 @@
  *
  * <h2>Basic Use</h2>
  *
- * NIAttributedLabel is a subclass of UILabel. The attributed label maintains an <a href="http://developer.apple.com/library/ios/#documentation/Cocoa/Reference/Foundation/Classes/NSAttributedString_Class/Reference/Reference.html">NSAttributedString</a>
- * object internally which is used in conjunction with CoreText to draw rich-text labels. A number
- * of helper methods for modifying the text style are provided. If you need to directly modify the
- * internal NSAttributedString you may do so by accessing the @c attributedString property on iOS 4
- * through 5.*.
- *
- *      @attention iOS 6 Beta note: when building for iOS 6 and higher you must use the
- *                 @c attributedText property now provided via UILabel.
+ * You can use an NIAttributedLabel just as you would use a UILabel. The attributed label creates
+ * an attributed string behind the scenes when you assign a string to the text property. The label
+ * then uses this attributed string to maintain and eventually present the rich text properties.
  *
 @code
 NIAttributedLabel* label = [[NIAttributedLabel alloc] initWithFrame:CGRectZero];
 
-// The internal NSAttributedString will inherit all of UILabel's text attributes when we assign
-// text.
+// The internal NSAttributedString will inherit all of the UILabel properties when we assign text.
 label.text = @"Nimbus";
 @endcode
  *
@@ -75,7 +69,6 @@ label.text = @"Nimbus";
  * <h2>Feature Overview</h2>
  *
  * - Automatic link detection using data detectors
- * - Link attributes
  * - Explicit links
  * - Underlining
  * - Justifying paragraphs
@@ -93,10 +86,6 @@ label.text = @"Nimbus";
  * @link NIAttributedLabel::dataDetectorTypes dataDetectorTypes@endlink property. By default only
  * urls will be detected.
  *
- *      @attention NIAttributedLabel is not designed to detect html anchor tags (i.e. &lt;a>). If
- *                 you want to attach a URL to a given range of text you must use
- *                 @link NIAttributedLabel::addLink:range: addLink:range:@endlink.
- *
  *  @image html NIAttributedLabel_autoDetectLinksOff.png "Before enabling autoDetectLinks"
  *
 @code
@@ -108,8 +97,6 @@ myLabel.autoDetectLinks = YES;
  *
  * Enabling automatic link detection will automatically enable user interation with the label view
  * so that the user can tap the detected links.
- *
- * <h3>Link Attributes</h3>
  *
  * Detected links will use @link NIAttributedLabel::linkColor linkColor@endlink and
  * @link NIAttributedLabel::highlightedLinkColor highlightedLinkColor@endlink to differentiate
@@ -142,11 +129,11 @@ myLabel.autoDetectLinks = YES;
  *
  * <h3>Explicit Links</h3>
  *
- * Links can be added explicitly using
- * @link NIAttributedLabel::addLink:range: addLink:range:@endlink.
+ * It is easy to add explicit links by using the
+ * @link NIAttributedLabel::addLink:range: addLink:range:@endlink method.
  * 
 @code
-// Add a link to the string 'nimbus' in myLabel.
+// Add a custom link to the text 'nimbus'.
 [myLabel addLink:[NSURL URLWithString:@"nimbus://custom/url"]
            range:[myLabel.text rangeOfString:@"nimbus"]];
 @endcode

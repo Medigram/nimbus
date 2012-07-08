@@ -418,6 +418,7 @@
   CGSize imageSize = _imageView.bounds.size;
   
   // Avoid crashing if the image has no dimensions.
+  NIDASSERT(imageSize.width > 0 && imageSize.height > 0);
   if (imageSize.width <= 0 || imageSize.height <= 0) {
     _scrollView.maximumZoomScale = 1;
     _scrollView.minimumZoomScale = 1;
