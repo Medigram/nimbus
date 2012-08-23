@@ -128,12 +128,17 @@ typedef enum {
 @optional
 
 /**
- * The image has begun an asynchronous download of the image.
+ * The image view has begun an asynchronous download of the image.
  */
 - (void)networkImageViewDidStartLoad:(NINetworkImageView *)imageView;
 
 /**
- * The image has completed an asynchronous download of the image.
+ * The image view has completed an asynchronous download of the image.
+ */
+- (void)networkImageView:(NINetworkImageView *)imageView didDownloadImage:(UIImage *)image;
+
+/**
+ * The image view has completed the loading of the image.
  */
 - (void)networkImageView:(NINetworkImageView *)imageView didLoadImage:(UIImage *)image;
 

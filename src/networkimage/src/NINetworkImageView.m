@@ -374,6 +374,9 @@
       AFImageRequestOperation *operation =
       [AFImageRequestOperation imageRequestOperationWithRequest:request imageProcessingBlock:
        ^UIImage *(UIImage *downloadedImage) {
+           if ([self.delegate respondsToSelector:@selector(networkImageView:didDownloadImage:)]) {
+               [self.delegate networkImageView:self didDownloadImage:downloadedImage];
+           }
          return [NIImageProcessing imageFromSource:downloadedImage
                                    withContentMode:contentMode
                                           cropRect:cropRect
