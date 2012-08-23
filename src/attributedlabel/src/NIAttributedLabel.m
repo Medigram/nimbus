@@ -1122,7 +1122,7 @@ static const CGFloat kTouchGutter = 22;
     case UITextAlignmentLeft: return kCTLeftTextAlignment;
     case UITextAlignmentCenter: return kCTCenterTextAlignment;
     case UITextAlignmentRight: return kCTRightTextAlignment;
-    case UITextAlignmentJustify: return kCTJustifiedTextAlignment;
+    //case UITextAlignmentJustify: return kCTJustifiedTextAlignment;
     default: return kCTNaturalTextAlignment;
   }
 }
