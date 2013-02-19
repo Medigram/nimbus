@@ -18,6 +18,9 @@
 
 #import "NimbusCore.h"
 
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +141,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-  if ((self = [super initWithStyle:style reuseIdentifier:[reuseIdentifier stringByAppendingFormat:@"%d", style]])) {
+  if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
   }
   return self;
@@ -176,9 +179,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface NIDrawRectBlockView : UIView
-@property (nonatomic, readwrite, copy) NICellDrawRectBlock block;
-@property (nonatomic, readwrite, retain) id object;
-@property (nonatomic, readwrite, assign) UITableViewCell* cell;
+@property (nonatomic, copy) NICellDrawRectBlock block;
+@property (nonatomic, NI_STRONG) id object;
+@property (nonatomic, assign) UITableViewCell* cell;
 @end
 
 
@@ -190,6 +193,14 @@
 @synthesize object = _object;
 @synthesize cell = _cell;
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (id)initWithFrame:(CGRect)frame {
+    if ((self = [super initWithFrame:frame])) {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
@@ -234,6 +245,12 @@
   blockView.cell = self;
   [blockView setNeedsDisplay];
   return YES;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
++ (CGFloat)heightForObject:(NIDrawRectBlockCellObject *)object atIndexPath:(NSIndexPath *)indexPath tableView:(UITableView *)tableView {
+  return object.block(tableView.bounds, object.object, nil);
 }
 
 @end

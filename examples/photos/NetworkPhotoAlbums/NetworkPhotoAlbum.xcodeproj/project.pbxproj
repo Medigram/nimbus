@@ -45,7 +45,6 @@
 		665E0BC113CE815D008A1D21 /* NIRuntimeClassModifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BB013CE815D008A1D21 /* NIRuntimeClassModifications.m */; };
 		665E0BC213CE815D008A1D21 /* NISDKAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BB213CE815D008A1D21 /* NISDKAvailability.m */; };
 		665E0BC313CE815D008A1D21 /* NIState.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BB413CE815D008A1D21 /* NIState.m */; };
-		665E0BC413CE815D008A1D21 /* NSData+NimbusCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BB513CE815D008A1D21 /* NSData+NimbusCore.m */; };
 		665E0BC513CE815D008A1D21 /* NSString+NimbusCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BB613CE815D008A1D21 /* NSString+NimbusCore.m */; };
 		665E0BCF13CE816E008A1D21 /* NIPhotoAlbumScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BCA13CE816E008A1D21 /* NIPhotoAlbumScrollView.m */; };
 		665E0BD013CE816E008A1D21 /* NIPhotoScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 665E0BCC13CE816E008A1D21 /* NIPhotoScrollView.m */; };
@@ -66,16 +65,15 @@
 		669F0D1B158002DD0069B972 /* NIRadioGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F0D12158002DD0069B972 /* NIRadioGroup.m */; };
 		669F0D1C158002DD0069B972 /* NIRadioGroupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F0D14158002DD0069B972 /* NIRadioGroupController.m */; };
 		669F0D1D158002DD0069B972 /* NITableViewActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F0D16158002DD0069B972 /* NITableViewActions.m */; };
-		66D2FE421594202500B2BEFD /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE2E1594202500B2BEFD /* AFHTTPClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE431594202500B2BEFD /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE301594202500B2BEFD /* AFHTTPRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE441594202500B2BEFD /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE321594202500B2BEFD /* AFImageRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE451594202500B2BEFD /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE341594202500B2BEFD /* AFJSONRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE461594202500B2BEFD /* AFJSONUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE361594202500B2BEFD /* AFJSONUtilities.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE471594202500B2BEFD /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE381594202500B2BEFD /* AFNetworkActivityIndicatorManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE481594202500B2BEFD /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3B1594202500B2BEFD /* AFPropertyListRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE491594202500B2BEFD /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3D1594202500B2BEFD /* AFURLConnectionOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE4A1594202500B2BEFD /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3F1594202500B2BEFD /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		66D2FE4B1594202500B2BEFD /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE411594202500B2BEFD /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		66D2FE421594202500B2BEFD /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE2E1594202500B2BEFD /* AFHTTPClient.m */; };
+		66D2FE431594202500B2BEFD /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE301594202500B2BEFD /* AFHTTPRequestOperation.m */; };
+		66D2FE441594202500B2BEFD /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE321594202500B2BEFD /* AFImageRequestOperation.m */; };
+		66D2FE451594202500B2BEFD /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE341594202500B2BEFD /* AFJSONRequestOperation.m */; };
+		66D2FE471594202500B2BEFD /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE381594202500B2BEFD /* AFNetworkActivityIndicatorManager.m */; };
+		66D2FE481594202500B2BEFD /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3B1594202500B2BEFD /* AFPropertyListRequestOperation.m */; };
+		66D2FE491594202500B2BEFD /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3D1594202500B2BEFD /* AFURLConnectionOperation.m */; };
+		66D2FE4A1594202500B2BEFD /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE3F1594202500B2BEFD /* AFXMLRequestOperation.m */; };
+		66D2FE4B1594202500B2BEFD /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D2FE411594202500B2BEFD /* UIImageView+AFNetworking.m */; };
 		66EA058313C011D6004FFE1A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EA058113C011D6004FFE1A /* AppDelegate.m */; };
 		66EA058813C011EC004FFE1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EA058713C011EC004FFE1A /* main.m */; };
 		66EAC64D13D28D9A00BDFF34 /* NICommonMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 66EAC64C13D28D9A00BDFF34 /* NICommonMetrics.m */; };
@@ -128,7 +126,6 @@
 		66409FA713E25C5E00E9BA5A /* NimbusOverviewer.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = NimbusOverviewer.bundle; path = ../../../src/overview/resources/NimbusOverviewer.bundle; sourceTree = "<group>"; };
 		665648381418638700EB5960 /* NINavigationAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NINavigationAppearance.h; path = ../../../src/core/src/NINavigationAppearance.h; sourceTree = "<group>"; };
 		665648391418638700EB5960 /* NINavigationAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NINavigationAppearance.m; path = ../../../src/core/src/NINavigationAppearance.m; sourceTree = "<group>"; };
-		665E0B9713CE815D008A1D21 /* NIBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIBlocks.h; path = ../../../src/core/src/NIBlocks.h; sourceTree = SOURCE_ROOT; };
 		665E0B9813CE815D008A1D21 /* NIDataStructures.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIDataStructures.h; path = ../../../src/core/src/NIDataStructures.h; sourceTree = SOURCE_ROOT; };
 		665E0B9913CE815D008A1D21 /* NIDataStructures.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIDataStructures.m; path = ../../../src/core/src/NIDataStructures.m; sourceTree = SOURCE_ROOT; };
 		665E0B9A13CE815D008A1D21 /* NIDebuggingTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIDebuggingTools.h; path = ../../../src/core/src/NIDebuggingTools.h; sourceTree = SOURCE_ROOT; };
@@ -158,7 +155,6 @@
 		665E0BB213CE815D008A1D21 /* NISDKAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NISDKAvailability.m; path = ../../../src/core/src/NISDKAvailability.m; sourceTree = SOURCE_ROOT; };
 		665E0BB313CE815D008A1D21 /* NIState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIState.h; path = ../../../src/core/src/NIState.h; sourceTree = SOURCE_ROOT; };
 		665E0BB413CE815D008A1D21 /* NIState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NIState.m; path = ../../../src/core/src/NIState.m; sourceTree = SOURCE_ROOT; };
-		665E0BB513CE815D008A1D21 /* NSData+NimbusCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+NimbusCore.m"; path = "../../../src/core/src/NSData+NimbusCore.m"; sourceTree = SOURCE_ROOT; };
 		665E0BB613CE815D008A1D21 /* NSString+NimbusCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+NimbusCore.m"; path = "../../../src/core/src/NSString+NimbusCore.m"; sourceTree = SOURCE_ROOT; };
 		665E0BC813CE816E008A1D21 /* NimbusPhotos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NimbusPhotos.h; path = ../../../src/photos/src/NimbusPhotos.h; sourceTree = SOURCE_ROOT; };
 		665E0BC913CE816E008A1D21 /* NIPhotoAlbumScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NIPhotoAlbumScrollView.h; path = ../../../src/photos/src/NIPhotoAlbumScrollView.h; sourceTree = SOURCE_ROOT; };
@@ -356,7 +352,6 @@
 		665E0B9513CE814D008A1D21 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				665E0B9713CE815D008A1D21 /* NIBlocks.h */,
 				66EAC64B13D28D9A00BDFF34 /* NICommonMetrics.h */,
 				66EAC64C13D28D9A00BDFF34 /* NICommonMetrics.m */,
 				665E0B9813CE815D008A1D21 /* NIDataStructures.h */,
@@ -393,7 +388,6 @@
 				665E0BB413CE815D008A1D21 /* NIState.m */,
 				66F27D5B145B7DF500AFCA08 /* NIViewRecycler.h */,
 				66F27D5C145B7DF500AFCA08 /* NIViewRecycler.m */,
-				665E0BB513CE815D008A1D21 /* NSData+NimbusCore.m */,
 				665E0BB613CE815D008A1D21 /* NSString+NimbusCore.m */,
 			);
 			name = Core;
@@ -624,7 +618,6 @@
 				665E0BC113CE815D008A1D21 /* NIRuntimeClassModifications.m in Sources */,
 				665E0BC213CE815D008A1D21 /* NISDKAvailability.m in Sources */,
 				665E0BC313CE815D008A1D21 /* NIState.m in Sources */,
-				665E0BC413CE815D008A1D21 /* NSData+NimbusCore.m in Sources */,
 				665E0BC513CE815D008A1D21 /* NSString+NimbusCore.m in Sources */,
 				665E0BCF13CE816E008A1D21 /* NIPhotoAlbumScrollView.m in Sources */,
 				665E0BD013CE816E008A1D21 /* NIPhotoScrollView.m in Sources */,
@@ -660,7 +653,6 @@
 				66D2FE431594202500B2BEFD /* AFHTTPRequestOperation.m in Sources */,
 				66D2FE441594202500B2BEFD /* AFImageRequestOperation.m in Sources */,
 				66D2FE451594202500B2BEFD /* AFJSONRequestOperation.m in Sources */,
-				66D2FE461594202500B2BEFD /* AFJSONUtilities.m in Sources */,
 				66D2FE471594202500B2BEFD /* AFNetworkActivityIndicatorManager.m in Sources */,
 				66D2FE481594202500B2BEFD /* AFPropertyListRequestOperation.m in Sources */,
 				66D2FE491594202500B2BEFD /* AFURLConnectionOperation.m in Sources */,
@@ -684,7 +676,7 @@
 				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = DEBUG;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "resources/NetworkPhotoAlbum-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = NetworkPhotoAlbum;
 				SDKROOT = iphoneos;
 			};
@@ -699,7 +691,7 @@
 				GCC_PREFIX_HEADER = src/NetworkPhotoAlbum_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "resources/NetworkPhotoAlbum-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = NetworkPhotoAlbum;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -19,6 +19,9 @@
 #import "NIStylesheet.h"
 #import "NimbusCore.h"
 
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +63,7 @@
 - (id)initWithStylesheet:(NIStylesheet *)stylesheet {
   if ((self = [super init])) {
     _stylesheet = stylesheet;
-    _registeredViews = [[NSMutableSet alloc] init];
+    _registeredViews = [[NSMutableArray alloc] init];
     _viewToSelectorsMap = [[NSMutableDictionary alloc] init];
   }
   return self;

@@ -23,10 +23,14 @@
 #import "NIDebuggingTools.h"
 #import "NIDeviceOrientation.h"
 
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
+
 @interface NIRadioGroupController ()
-@property (nonatomic, readonly, retain) NIRadioGroup* radioGroup;
-@property (nonatomic, readonly, retain) id<NICell> tappedCell;
-@property (nonatomic, readonly, retain) NITableViewModel* model;
+@property (nonatomic, readonly, NI_STRONG) NIRadioGroup* radioGroup;
+@property (nonatomic, readonly, NI_STRONG) id<NICell> tappedCell;
+@property (nonatomic, readonly, NI_STRONG) NITableViewModel* model;
 @end
 
 

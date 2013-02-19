@@ -22,13 +22,15 @@
 #import "AFNetworking.h"
 #import "NIImageProcessing.h"
 
-
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface NINetworkImageView()
-@property (nonatomic, readwrite, retain) NSOperation* operation;
+@property (nonatomic, readwrite, NI_STRONG) NSOperation* operation;
 @end
 
 
@@ -396,7 +398,7 @@
          [self _didFailToLoadWithError:error];
        }];
         
-      [operation setDownloadProgressBlock:^(NSInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+      [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
           if ([self.delegate respondsToSelector:@selector(networkImageView:readBytes:totalBytes:)]) {
               [self.delegate networkImageView:self readBytes:totalBytesRead totalBytes:totalBytesExpectedToRead];
           }

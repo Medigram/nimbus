@@ -18,8 +18,12 @@
 
 #import "NimbusCore.h"
 
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
+
 @interface NICellFactory()
-@property (nonatomic, readwrite, copy) NSMutableDictionary* objectToCellMap;
+@property (nonatomic, copy) NSMutableDictionary* objectToCellMap;
 @end
 
 
@@ -90,25 +94,45 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+- (Class)cellClassFromObject:(id)object {
+  if (nil == object) {
+    return nil;
+  }
+  Class objectClass = [object class];
+  Class cellClass = [self.objectToCellMap objectForKey:objectClass];
+
+  BOOL hasExplicitMapping = (nil != cellClass && cellClass != [NSNull class]);
+
+  if (!hasExplicitMapping && [object respondsToSelector:@selector(cellClass)]) {
+    cellClass = [object cellClass];
+  }
+
+  if (nil == cellClass) {
+    cellClass = [self.class objectFromKeyClass:objectClass map:self.objectToCellMap];
+  }
+
+  return cellClass;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 - (UITableViewCell *)tableViewModel:(NITableViewModel *)tableViewModel
                    cellForTableView:(UITableView *)tableView
                         atIndexPath:(NSIndexPath *)indexPath
                          withObject:(id)object {
   UITableViewCell* cell = nil;
 
-  Class objectClass = [object class];
-  Class cellClass = [self.class classFromKeyClass:objectClass map:self.objectToCellMap];
+  Class cellClass = [self cellClassFromObject:object];
 
-  // Explicit mappings override implicit mappings.
+  // If this assertion fires then your app is about to crash. You need to either add an explicit
+  // binding in a NICellFactory object or implement the NICellObject protocol on this object and
+  // return a cell class.
+  NIDASSERT(nil != cellClass);
+
   if (nil != cellClass) {
     cell = [[self class] cellWithClass:cellClass tableView:tableView object:object];
-
-  } else {
-    cell = [[self class] tableViewModel:tableViewModel
-                       cellForTableView:tableView
-                            atIndexPath:indexPath
-                             withObject:object];
   }
+  
   return cell;
 }
 
@@ -118,6 +142,40 @@
   [self.objectToCellMap setObject:cellClass forKey:(id<NSCopying>)objectClass];
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath model:(NITableViewModel *)model {
+  CGFloat height = tableView.rowHeight;
+  id object = [model objectAtIndexPath:indexPath];
+  Class cellClass = [self cellClassFromObject:object];
+  if ([cellClass respondsToSelector:@selector(heightForObject:atIndexPath:tableView:)]) {
+    CGFloat cellHeight = [cellClass heightForObject:object
+                                        atIndexPath:indexPath tableView:tableView];
+    if (cellHeight > 0) {
+      height = cellHeight;
+    }
+  }
+  return height;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
++ (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath model:(NITableViewModel *)model {
+  CGFloat height = tableView.rowHeight;
+  id object = [model objectAtIndexPath:indexPath];
+  Class cellClass = nil;
+  if ([object respondsToSelector:@selector(cellClass)]) {
+    cellClass = [object cellClass];
+  }
+  if ([cellClass respondsToSelector:@selector(heightForObject:atIndexPath:tableView:)]) {
+    CGFloat cellHeight = [cellClass heightForObject:object
+                                        atIndexPath:indexPath tableView:tableView];
+    if (cellHeight > 0) {
+      height = cellHeight;
+    }
+  }
+  return height;
+}
 
 @end
 
@@ -129,10 +187,10 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-+ (Class)classFromKeyClass:(Class)keyClass map:(NSMutableDictionary *)map {
-  Class mappedClass = [map objectForKey:keyClass];
++ (id)objectFromKeyClass:(Class)keyClass map:(NSMutableDictionary *)map {
+  id object = [map objectForKey:keyClass];
 
-  if (nil == mappedClass) {
+  if (nil == object) {
     // No mapping found for this key class, but it may be a subclass of another object that does
     // have a mapping, so let's see what we can find.
     Class superClass = nil;
@@ -146,23 +204,23 @@
     }
 
     if (nil != superClass) {
-      mappedClass = [map objectForKey:superClass];
+      object = [map objectForKey:superClass];
 
       // Add this subclass to the map so that next time this result is instant.
-      [map setObject:mappedClass forKey:(id<NSCopying>)keyClass];
+      [map setObject:object forKey:(id<NSCopying>)keyClass];
     }
   }
 
-  if (nil == mappedClass) {
+  if (nil == object) {
     // We couldn't find a mapping at all so let's add an empty mapping.
     [map setObject:[NSNull class] forKey:(id<NSCopying>)keyClass];
 
-  } else if (mappedClass == [NSNull class]) {
+  } else if (object == [NSNull class]) {
     // Don't return null mappings.
-    mappedClass = nil;
+    object = nil;
   }
 
-  return mappedClass;
+  return object;
 }
 
 @end
@@ -172,8 +230,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @interface NICellObject()
-@property (nonatomic, readwrite, assign) Class cellClass;
-@property (nonatomic, readwrite, retain) id userInfo;
+@property (nonatomic, assign) Class cellClass;
+@property (nonatomic, NI_STRONG) id userInfo;
 @end
 
 

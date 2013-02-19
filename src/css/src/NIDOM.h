@@ -15,6 +15,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @class NIStylesheet;
 
@@ -28,6 +29,11 @@
  * automatically apply any applicable styles from the attached stylesheet. If the stylesheet
  * changes you can refresh the DOM and all registered views will be updated accordingly.
  *
+ * Because NimbusCSS supports positioning and sizing using percentages and relative units,
+ * the order of view registration is important. Generally, you should register superviews
+ * first, so that any size calculations on their children can occur after their own
+ * size has been determined. It's not feasible (or at least advisable) to try and
+ * untangle these dependencies automatically.
  *
  * <h2>Example Use</h2>
  *
@@ -61,7 +67,7 @@ _dom = [[NIDOM alloc] initWithStylesheet:stylesheet];
 @interface NIDOM : NSObject {
 @private
   NIStylesheet* _stylesheet;
-  NSMutableSet* _registeredViews;
+  NSMutableArray* _registeredViews;
   NSMutableDictionary* _viewToSelectorsMap;
 }
 

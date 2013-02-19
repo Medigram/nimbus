@@ -21,6 +21,10 @@
 
 #import <pthread.h>
 
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "Nimbus requires ARC support."
+#endif
+
 static pthread_mutex_t gMutex = PTHREAD_MUTEX_INITIALIZER;
 NSString* const kPropertyOrderKey = @"__kRuleSetOrder__";
 NSString* const kDependenciesSelectorKey = @"__kDependencies__";
@@ -233,8 +237,8 @@ int cssConsume(char* text, int token) {
                 [existingProperties setObject:[_mutatingRuleset objectForKey:key] forKey:key];
               }
               // Add the order of the new properties.
-              [[existingProperties objectForKey:kPropertyOrderKey] addObjectsFromArray:
-               [_mutatingRuleset objectForKey:kPropertyOrderKey]];
+              NSMutableArray* order = [existingProperties objectForKey:kPropertyOrderKey];
+              [order addObjectsFromArray:[_mutatingRuleset objectForKey:kPropertyOrderKey]];
             }
           }
 
@@ -346,8 +350,8 @@ int cssConsume(char* text, int token) {
 
             } else {
               // Append the property order.
-              [[mergedScopeProperties objectForKey:kPropertyOrderKey] addObjectsFromArray:
-               [properties objectForKey:kPropertyOrderKey]];
+              NSMutableArray *order = [mergedScopeProperties objectForKey:kPropertyOrderKey];
+              [order addObjectsFromArray:[properties objectForKey:kPropertyOrderKey]];
             }
           }
         }

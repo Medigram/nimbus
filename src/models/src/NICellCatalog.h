@@ -27,8 +27,8 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
 // Designated initializer.
 - (id)initWithBlock:(NICellDrawRectBlock)block object:(id)object;
 + (id)objectWithBlock:(NICellDrawRectBlock)block object:(id)object;
-@property (nonatomic, readwrite, copy) NICellDrawRectBlock block;
-@property (nonatomic, readwrite, retain) id object;
+@property (nonatomic, copy) NICellDrawRectBlock block;
+@property (nonatomic, NI_STRONG) id object;
 @end
 
 /**
@@ -46,8 +46,8 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
 - (id)initWithTitle:(NSString *)title;
 + (id)objectWithTitle:(NSString *)title image:(UIImage *)image;
 + (id)objectWithTitle:(NSString *)title;
-@property (nonatomic, readwrite, copy) NSString* title;
-@property (nonatomic, readwrite, retain) UIImage* image;
+@property (nonatomic, copy) NSString* title;
+@property (nonatomic, NI_STRONG) UIImage* image;
 @end
 
 /**
@@ -64,8 +64,8 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
 + (id)objectWithTitle:(NSString *)title subtitle:(NSString *)subtitle image:(UIImage *)image;
 - (id)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 + (id)objectWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
-@property (nonatomic, readwrite, copy) NSString* subtitle;
-@property (nonatomic, readwrite, assign) UITableViewCellStyle cellStyle;
+@property (nonatomic, copy) NSString* subtitle;
+@property (nonatomic, assign) UITableViewCellStyle cellStyle;
 @end
 
 /**
@@ -85,7 +85,7 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
  *      @ingroup TableCellCatalog
  */
 @interface NIDrawRectBlockCell : UITableViewCell <NICell>
-@property (nonatomic, readwrite, retain) UIView* blockView;
+@property (nonatomic, NI_STRONG) UIView* blockView;
 @end
 
 /**
@@ -103,14 +103,14 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
 /**
  * Convenience method for initWithTitle:image:.
  *
- *      @fn NITitleCellObject::cellWithTitle:image:
+ *      @fn NITitleCellObject::objectWithTitle:image:
  *      @returns Autoreleased instance of NITitleCellObject.
  */
 
 /**
  * Convenience method for initWithTitle:.
  *
- *      @fn NITitleCellObject::cellWithTitle:
+ *      @fn NITitleCellObject::objectWithTitle:
  *      @returns Autoreleased instance of NITitleCellObject.
  */
 
@@ -130,7 +130,7 @@ typedef CGFloat (^NICellDrawRectBlock)(CGRect rect, id object, UITableViewCell* 
 /**
  * Convenience method for initWithTitle:subtitle:.
  *
- *      @fn NISubtitleCellObject::cellWithTitle:subtitle:
+ *      @fn NISubtitleCellObject::objectWithTitle:subtitle:
  *      @returns Autoreleased instance of NISubtitleCellObject.
  */
 
